@@ -7,12 +7,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
-
+import { orderCreationComponent } from './components/orderCreation/orderCreation.component';
+import { ManageOrdersComponent } from './components/manage-orders/manage-orders.component';
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    orderCreationComponent,
+    ManageOrdersComponent
   ],
   imports: [
     BrowserModule,

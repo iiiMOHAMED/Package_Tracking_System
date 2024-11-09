@@ -1,0 +1,51 @@
+<h2>Manage Orders</h2>
+
+<table border="3">
+    <thead>
+        <tr>
+            <th>Order Number</th>
+            <th>Pickup Location</th>
+            <th>Drop-Off Location</th>
+            <th>Package Details</th>
+            <th>Delivery Time</th>
+            <th>User ID</th>
+            <th>Courier ID</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of orders">
+            <td>{{ order.orderNumber }}</td>
+            <td>{{ order.pickupLocation }}</td>
+            <td>{{ order.dropOffLocation }}</td>
+            <td>{{ order.packageDetails }}</td>
+            <td>{{ order.deliveryTime }}</td>
+            <td>{{ order.user_id }}</td>
+            <td>{{ order.courier_id }}</td>
+            <td>
+                <select [(ngModel)]="order.status">
+                    <option value="pending">Pending</option>
+                    <option value="picked up">Picked Up</option>
+                    <option value="in transit">In Transit</option>
+                    <option value="delivered">Delivered</option>
+                </select>
+            </td>
+            <td>
+                <button (click)="updateStatus(order.orderNumber, order.status)">Update Status</button>
+                <button (click)="deleteOrder(order.orderNumber)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!-- Form for Assigning Courier -->
+<h3>Assign Courier to Order</h3>
+<form (ngSubmit)="assignCourier(orderNumber, courierId)">
+    <label for="orderNumber">Order Number:</label>
+    <input type="number" id="orderNumber" [(ngModel)]="orderNumber" name="orderNumber" required>
+
+    <label for="courierId">Courier ID:</label>
+    <input type="number" id="courierId" [(ngModel)]="courierId" name="courierId" required>
+
+    <button type="submit">Assign Courier</button>
+</form>

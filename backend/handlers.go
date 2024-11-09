@@ -31,8 +31,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	user.Password = string(hashedPassword)
 
 	// Insert user into the database
-	insertSQL := `INSERT INTO users (name, email, phone, password) VALUES (?, ?, ?, ?)`
-	_, err = DB.Exec(insertSQL, user.Name, user.Email, user.Phone, user.Password)
+	insertSQL := `INSERT INTO users (name, email, phone, password, role) VALUES (?, ?, ?, ?,?)`
+	_, err = DB.Exec(insertSQL, user.Name, user.Email, user.Phone, user.Password, user.Role)
 	if err != nil {
 		if sql.ErrNoRows == err {
 			w.WriteHeader(http.StatusBadRequest)

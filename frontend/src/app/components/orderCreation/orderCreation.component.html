@@ -1,0 +1,31 @@
+<h2>Make an order</h2>
+<form (ngSubmit)="onSubmit()">
+    <label for="pickupLocation">Pickup Location</label><br>
+    <input type="text" [(ngModel)]="pickupLocation" name="pickupLocation" id="pickupLocation" required><br>
+
+    <label for="dropOffLocation">Dropoff Location</label><br>
+    <input type="text" [(ngModel)]="dropOffLocation" name="dropOffLocation" id="dropOffLocation" required><br>
+
+    <label for="packageDetails">Package Details</label><br>
+    <input type="text" [(ngModel)]="packageDetails" name="packageDetails" id="packageDetails" required><br>
+
+    <label for="deliveryTime">Delivery Time</label><br>
+    <select [(ngModel)]="deliveryTime" name="deliveryTime" id="deliveryTime" required>
+        <option value="" disabled selected>Select delivery time</option>
+        <option value="Morning">Morning</option>
+        <option value="Afternoon">Afternoon</option>
+        <option value="Evening">Evening</option>
+    </select><br>
+    
+    <input type="submit" value="Create Order">
+</form>
+
+
+<!--type Order struct {
+	OrderNumber     string `json:"orderNumber"`
+	PickupLocation  string `json:"pickupLocation"`
+	DropOffLocation string `json:"dropOffLocation"`
+	PackageDetails  string `json:"packageDetails"`
+	DeliveryTime    string `json:"deliveryTime"`
+}
+-->

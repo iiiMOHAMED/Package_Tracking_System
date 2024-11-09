@@ -6,7 +6,9 @@ import { Component } from '@angular/core';
     <h1>Welcome to the Shipping App</h1>
     <nav>
       <a routerLink="/register">Register</a> |
-      <a routerLink="/login">Login</a>
+      <a routerLink="/login">Login</a> |
+      <a routerLink="/orders">Order</a> |
+      <a routerLink="/manage-orders">Manage Orders</a> <!-- New link for Manage Orders -->
     </nav>
     <router-outlet></router-outlet>
   `,

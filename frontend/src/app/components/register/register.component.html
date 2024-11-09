@@ -2,11 +2,30 @@
 <form (ngSubmit)="onSubmit()">
   <label>Name:</label>
   <input type="text" [(ngModel)]="name" name="name" required />
+
   <label>Email:</label>
   <input type="email" [(ngModel)]="email" name="email" required />
+
   <label>Phone:</label>
   <input type="text" [(ngModel)]="phone" name="phone" required />
+
   <label>Password:</label>
   <input type="password" [(ngModel)]="password" name="password" required />
+ 
+  <label for="role">Role:</label>
+  <select [(ngModel)]="role" name="role" id="role" required>
+      <option value="" disabled selected>Select account type</option>
+      <option value="admin">Admin</option>
+      <option value="courier">Courier</option>
+      <option value="customer">Customer</option>
+  </select><br>
   <button type="submit">Register</button>
 </form>
+
+<!-- <label for="deliveryTime">Delivery Time</label><br>
+    <select [(ngModel)]="deliveryTime" name="deliveryTime" id="deliveryTime" required>
+        <option value="" disabled selected>Select delivery time</option>
+        <option value="Morning">Morning</option>
+        <option value="Afternoon">Afternoon</option>
+        <option value="Evening">Evening</option>
+    </select><br>-->

@@ -10,6 +10,7 @@ export class RegisterComponent {
   email: string = '';
   phone: string = '';
   password: string = '';
+  role: string='';
   private apiUrl = 'http://localhost:8080/register';
 
   constructor(private http: HttpClient) {}
@@ -20,6 +21,7 @@ export class RegisterComponent {
       email: this.email,
       phone: this.phone,
       password: this.password,
+      role: this.role
     };
 
     this.http.post(this.apiUrl, user).subscribe({
