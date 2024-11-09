@@ -1,0 +1,21 @@
+<div class="wrapper">
+    <div class="container">
+      <div *ngIf="!isLoggedIn()">
+        <h2>Welcome to the Shipping App!</h2>
+        <p>Please log in or register to continue.</p>
+        <button (click)="goLogin()">Login</button>
+        <button (click)="goRegister()">Register</button>
+      </div>
+    
+      <div *ngIf="isLoggedIn()">
+        <h2>Welcome, {{ role | titlecase }}!</h2>
+        <p>Choose an option below:</p>
+        <button *ngIf="isAdmin()" (click)="goManageOrders()">Manage Orders</button>
+        <button *ngIf="isCustomer()" (click)="goCreateOrder()">Create Order</button>
+        <button *ngIf="isCustomer()" (click)="goMyOrders()">My Orders</button>
+        <button *ngIf="isCourier()" (click)="goAssignedOrders()">Assigned Orders</button>
+        <button class="logout" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+  

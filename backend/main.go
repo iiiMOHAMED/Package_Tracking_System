@@ -23,7 +23,12 @@ func main() {
 	r.HandleFunc("/orders/delete/{id}", DeleteOrder).Methods("DELETE")
 	r.HandleFunc("/orders/retrieve", getAllOrders).Methods("GET")
 	r.HandleFunc("/orders/assign/{id}", AssignCourierToOrder).Methods("PUT")
-
+	r.HandleFunc("/orders/users/{id}", getUserOrders).Methods("GET")
+	r.HandleFunc("/orders/{orderNumber}", getOrderDetails).Methods("GET")
+	r.HandleFunc("/orders/couriers/{id}", getCourierOrders).Methods("GET")
+	r.HandleFunc("/orders/accept/{orderNumber}", acceptOrder).Methods("PUT")
+	r.HandleFunc("/orders/decline/{orderNumber}", declineOrder).Methods("PUT")
+	r.HandleFunc("/couriers/{orderNumber}", clearCourier).Methods("PUT")
 	// Allow preflight requests
 	r.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -50,6 +55,30 @@ func main() {
 	}).Methods("OPTIONS")
 
 	r.HandleFunc("/orders/assign/{id}", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}).Methods("OPTIONS")
+
+	r.HandleFunc("/orders/users/{id}", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}).Methods("OPTIONS")
+
+	r.HandleFunc("/orders/{orderNumber}", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}).Methods("OPTIONS")
+
+	r.HandleFunc("/orders/couriers/{id}", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}).Methods("OPTIONS")
+
+	r.HandleFunc("orders/accept/{orderNumber}", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}).Methods("OPTIONS")
+
+	r.HandleFunc("orders/decline/{orderNumber}", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}).Methods("OPTIONS")
+
+	r.HandleFunc("couriers/{orderNumber}", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}).Methods("OPTIONS")
 

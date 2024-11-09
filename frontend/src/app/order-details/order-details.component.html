@@ -1,0 +1,50 @@
+<h2>Order Details</h2>
+
+<!-- Display error message if any -->
+<div *ngIf="error" class="error-message">
+  <p>{{ error }}</p>
+</div>
+
+<!-- Display order details if available -->
+<div *ngIf="!error && orderDetails">
+  <table *ngIf="orderDetails" class="order-details-table">
+    <tr>
+      <th>Order Number</th>
+      <td>{{ orderDetails.orderNumber }}</td>
+    </tr>
+    <tr>
+      <th>Pickup Location</th>
+      <td>{{ orderDetails.pickupLocation }}</td>
+    </tr>
+    <tr>
+      <th>Dropoff Location</th>
+      <td>{{ orderDetails.dropOffLocation }}</td>
+    </tr>
+    <tr>
+      <th>Package Details</th>
+      <td>{{ orderDetails.packageDetails }}</td>
+    </tr>
+    <tr>
+      <th>Delivery Time</th>
+      <td>{{ orderDetails.deliveryTime }}</td>
+    </tr>
+    <tr>
+      <th>Status</th>
+      <td>{{ orderDetails.status }}</td>
+    </tr>
+    <tr>
+      <th>Courier</th>
+      <td>{{ orderDetails.courierId ? orderDetails.courierId : 'Not Assigned' }}</td>
+    </tr>
+  </table>
+
+  <!-- Cancel Order button, shown only if order status is 'pending' -->
+  <div class="cancel-order-button">
+    <button *ngIf="orderDetails.status === 'pending'" (click)="deleteOrder()">Cancel Order</button>
+  </div>
+</div>
+
+<!-- Button to navigate back to user orders page -->
+<div class="back-button">
+  <button routerLink="/user-orders">Back to User Orders</button>
+</div>

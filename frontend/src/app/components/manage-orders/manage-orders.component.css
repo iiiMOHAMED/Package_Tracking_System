@@ -1,0 +1,135 @@
+/* Center and style the "Manage Orders" heading */
+.manage-orders-heading {
+    text-align: center;
+    color: #007aff;
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+h3{
+    font-family: Arial, Helvetica, sans-serif;
+    color: #007aff;
+}
+
+/* Return button at the top-right */
+.return-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.return-button button,
+.assign-button,
+.update-button,
+.delete-button {
+    background-color: #007aff;
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: auto;
+    margin: 0 5px;
+}
+
+.return-button button:hover,
+.assign-button:hover,
+.update-button:hover,
+.delete-button:hover {
+    background-color: #005b8a;
+    transform: translateY(-2px);
+}
+
+.return-button button:active,
+.assign-button:active,
+.update-button:active,
+.delete-button:active {
+    background-color: #004070;
+    transform: translateY(0);
+}
+
+/* Center and style the table */
+table {
+    width: 80%;
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: left;
+    border-collapse: collapse;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table th,
+table td {
+    padding: 12px 20px;
+}
+
+table th {
+    background-color: #f1f1f1;
+    color: #333;
+    font-weight: bold;
+}
+
+table td {
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+/* Style the select dropdown */
+select {
+    padding: 6px;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    width: auto;
+}
+
+/* Flex container for Update and Delete buttons */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+/* Form styling for Assign Courier section */
+.assign-courier-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.assign-courier-form label {
+    font-weight: bold;
+    color: #333;
+}
+
+.assign-courier-form input[type="number"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Center the Assign button within the form */
+.assign-courier-form .assign-button {
+    margin-top: 10px;
+    align-self: center;
+}

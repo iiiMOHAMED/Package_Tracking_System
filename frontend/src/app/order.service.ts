@@ -23,7 +23,26 @@ export class OrderService {
     return this.http.delete(`${this.apiUrl}/orders/delete/${orderId}`);
   }
 
-  assignCourierToOrder(orderId: number, courierId: number): Observable<any> {
+  assignCourierToOrder(orderId: number, courierId: number|null|{ courier_id: null }): Observable<any> {
     return this.http.put(`${this.apiUrl}/orders/assign/${orderId}`, { courier_id: courierId });
   }
+
+  assignCourierToOrder2(orderId: number, courierId:{ courier_id: null }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/orders/assign/${orderId}`, { courier_id: courierId });
+  }
+   
+   getUserOrders(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/orders/users/${userId}`);
+  }
+
+  getOrderDetails(orderNumber: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/orders/${orderNumber}`);
+  }
+
+  clearCourier(orderId: number, newStatus: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/couriers/${orderId}`, { status: newStatus });
+  }
+  
+
+
 }

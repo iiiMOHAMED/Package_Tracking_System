@@ -1,0 +1,35 @@
+<div *ngIf="!isCus()">
+  <h2>Only for Customers!</h2>
+</div>
+
+<div *ngIf="isCus()">
+  <h2 class="my-orders-heading">My Orders</h2>
+  <a href="/home" class="return-button">
+    <button>Return</button>
+  </a>
+  <table border="2" *ngIf="orders.length > 0; else noOrders">
+    <thead>
+      <tr>
+        <th>Order Number</th>
+        <th>Dropoff Location</th>
+        <th>Status</th>
+        <th>Action</th> 
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.orderNumber }}</td>
+        <td>{{ order.dropOffLocation }}</td>  
+        <td>{{ order.status }}</td>
+        <td>
+          <!-- Button to navigate to the order details page -->
+          <button class="details-button" [routerLink]="['/order-details', order.orderNumber]">Show Details</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noOrders>
+    <p>No orders found for this user.</p>
+  </ng-template>
+</div>

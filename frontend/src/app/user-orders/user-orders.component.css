@@ -1,0 +1,103 @@
+/* Center the "My Orders" heading */
+
+.my-orders-heading {
+    text-align: center;
+    color: #007aff; /* Blue color for the heading */
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-family:Arial, Helvetica, sans-serif
+  }
+  
+  /* Position the Return button to the top-right corner */
+  .return-button {
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Moves the button to the right */
+  }
+  
+  .return-button button {
+    background-color: #007aff; /* iOS blue */
+    color: #fff;
+    padding: 6px 12px; /* Smaller padding for the button */
+    font-size: 12px; /* Smaller font size */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .return-button button:hover {
+    background-color: #005b8a;
+    transform: translateY(-2px);
+  }
+  
+  .return-button button:active {
+    background-color: #004070;
+    transform: translateY(0);
+  }
+  
+  /* Center the table and limit its width */
+  table {
+    width: 80%; /* Set the table to 80% of the page width */
+    max-width: 800px; /* Optional: to make sure the table doesn't become too wide */
+    margin: 50px auto; /* Center the table horizontally and give it some top margin */
+    text-align: left;
+    border-collapse: collapse;
+    font-size: 16px; /* Larger font size for table text */
+    font-family:Arial, Helvetica, sans-serif
+  }
+  
+  table th, table td {
+    padding: 12px 20px;
+  }
+  
+  table th {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  
+  table td {
+    background-color: #fff;
+    border: 1px solid #ddd;
+  }
+  
+  /* Update "Show Details" button */
+  .details-button {
+    background-color: #007aff; /* iOS blue */
+    color: #fff;
+    padding: 6px 12px; /* Smaller padding for the button */
+    font-size: 12px; /* Smaller font size */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .details-button:hover {
+    background-color: #005b8a;
+    transform: translateY(-2px);
+  }
+  
+  .details-button:active {
+    background-color: #004070;
+    transform: translateY(0);
+  }
+  
+  /* Mobile responsiveness for small screens */
+  @media (max-width: 480px) {
+    table {
+      font-size: 14px; /* Slightly smaller font size for small screens */
+    }
+  
+    .return-button button {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+  
+    .details-button {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+  }
+  

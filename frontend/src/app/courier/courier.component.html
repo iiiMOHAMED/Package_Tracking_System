@@ -1,0 +1,61 @@
+<div *ngIf="!isCourier()">
+  <h2>Assigned orders are just for Couriers</h2>
+</div>
+
+<div *ngIf="isCourier()">
+  <a href="/home" class="return-button">
+    <button>Return</button>
+  </a>
+  <h2>My Assigned Orders</h2>
+
+  <!-- Error message if orders fail to load -->
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+  <!-- Orders Table -->
+  <table border="2" *ngIf="orders.length > 0; else noOrders">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Pickup Location</th>
+        <th>Dropoff Location</th>
+        <th>Package Details</th>
+        <th>Status</th>
+        <th>Update Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.orderNumber }}</td>
+        <td>{{ order.pickupLocation }}</td>
+        <td>{{ order.dropOffLocation }}</td>
+        <td>{{ order.packageDetails }}</td>
+        <td>{{ order.status }}</td>
+        <td>
+          <!-- Flex container for select and update button -->
+          <div class="update-status">
+            <select [(ngModel)]="order.newStatus">
+              <option value="pending">Pending</option>
+              <option value="picked up">Picked Up</option>
+              <option value="in transit">In Transit</option>
+              <option value="delivered">Delivered</option>
+            </select>
+            <button (click)="updateStatus(order.orderNumber, order.newStatus)" class="update-button">Update</button>
+          </div>
+        </td>
+        <td>
+          <!-- Flex container for action buttons -->
+          <div class="action-buttons">
+            <button (click)="acceptOrder(order.orderNumber)" class="accept-button" [disabled]="order.status !== 'pending'">Accept</button>
+            <button (click)="revive(order.orderNumber, order)" class="decline-button" [disabled]="order.status !== 'pending'">Decline</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Message for no orders found -->
+  <ng-template #noOrders>
+    <p>No orders assigned to you currently.</p>
+  </ng-template>
+</div>

@@ -1,25 +1,47 @@
-<h2>Make an order</h2>
-<form (ngSubmit)="onSubmit()">
-    <label for="pickupLocation">Pickup Location</label><br>
-    <input type="text" [(ngModel)]="pickupLocation" name="pickupLocation" id="pickupLocation" required><br>
-
-    <label for="dropOffLocation">Dropoff Location</label><br>
-    <input type="text" [(ngModel)]="dropOffLocation" name="dropOffLocation" id="dropOffLocation" required><br>
-
-    <label for="packageDetails">Package Details</label><br>
-    <input type="text" [(ngModel)]="packageDetails" name="packageDetails" id="packageDetails" required><br>
-
-    <label for="deliveryTime">Delivery Time</label><br>
-    <select [(ngModel)]="deliveryTime" name="deliveryTime" id="deliveryTime" required>
-        <option value="" disabled selected>Select delivery time</option>
-        <option value="Morning">Morning</option>
-        <option value="Afternoon">Afternoon</option>
-        <option value="Evening">Evening</option>
-    </select><br>
+<div *ngIf="!isCus()">
+    <h2>Only for Customers!</h2>
+  </div>
+  
+  <div *ngIf="isCus()">
+    <h2>Make an Order</h2>
+  
     
-    <input type="submit" value="Create Order">
-</form>
-
+    <a href="/home" class="return-button">
+      <button>Return</button>
+    </a>
+  
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="pickupLocation">Pickup Location</label>
+        <input type="text" [(ngModel)]="pickupLocation" name="pickupLocation" id="pickupLocation" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="dropOffLocation">Dropoff Location</label>
+        <input type="text" [(ngModel)]="dropOffLocation" name="dropOffLocation" id="dropOffLocation" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="packageDetails">Package Details</label>
+        <input type="text" [(ngModel)]="packageDetails" name="packageDetails" id="packageDetails" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="deliveryTime">Delivery Time</label>
+        <select [(ngModel)]="deliveryTime" name="deliveryTime" id="deliveryTime" required>
+          <option value="" disabled selected>Select delivery time</option>
+          <option value="Morning">Morning</option>
+          <option value="Afternoon">Afternoon</option>
+          <option value="Evening">Evening</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <input type="submit" value="Create Order">
+      </div>
+    </form>
+  </div>
+  
 
 <!--type Order struct {
 	OrderNumber     string `json:"orderNumber"`
@@ -29,3 +51,30 @@
 	DeliveryTime    string `json:"deliveryTime"`
 }
 -->
+<!--<div *ngIf="!isCus()">
+    <h2>Only for Customers!</h2>
+  </div>
+  
+  <div *ngIf="isCus()">
+    <h2>Make an Order</h2>
+    <form (ngSubmit)="onSubmit()">
+      <label for="pickupLocation">Pickup Location</label>
+      <input type="text" [(ngModel)]="pickupLocation" name="pickupLocation" id="pickupLocation" required>
+  
+      <label for="dropOffLocation">Dropoff Location</label>
+      <input type="text" [(ngModel)]="dropOffLocation" name="dropOffLocation" id="dropOffLocation" required>
+  
+      <label for="packageDetails">Package Details</label>
+      <input type="text" [(ngModel)]="packageDetails" name="packageDetails" id="packageDetails" required>
+  
+      <label for="deliveryTime">Delivery Time</label>
+      <select [(ngModel)]="deliveryTime" name="deliveryTime" id="deliveryTime" required>
+        <option value="" disabled selected>Select delivery time</option>
+        <option value="Morning">Morning</option>
+        <option value="Afternoon">Afternoon</option>
+        <option value="Evening">Evening</option>
+      </select>
+      
+      <input type="submit" value="Create Order">
+    </form>
+  </div>-->

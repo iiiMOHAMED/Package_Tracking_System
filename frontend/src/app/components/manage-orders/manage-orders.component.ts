@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth.service';
 import { OrderService } from 'src/app/order.service';
+import { jwtDecode } from "jwt-decode";
 @Component({
   selector: 'app-manage-orders',
   templateUrl: './manage-orders.component.html',
@@ -9,7 +11,29 @@ export class ManageOrdersComponent implements OnInit {
   orders: any[] = [];
   orderNumber: number = 0; // Initialize with a default number
   courierId: number = 0; // Initialize with a default number
-  constructor(private orderService: OrderService) {}
+  role:string=" ";
+  constructor(private orderService: OrderService, private authService: AuthService) {
+    const token = this.authService.getToken();
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      this.role = decodedToken.role; 
+      console.log("test1:"+this.role)
+    }
+    else{ 
+      console.log("test2:"+this.role)
+    }
+
+  }
+
+ isAdmin(){
+  if(this.role==="admin"){
+    return true;
+  }
+  else{
+    return false;
+  }
+ }
+ 
 
   ngOnInit() {
     this.loadOrders();
@@ -26,7 +50,7 @@ export class ManageOrdersComponent implements OnInit {
       next: response => {
         console.log('Status updated successfully', response);
         this.loadOrders(); // Reload orders to reflect the updated status
-        alert('Order status updated successfully!'); // Notify user of success
+         // Notify user of success
       },
       error: error => {
         console.error('Error updating order status:', error);
@@ -40,7 +64,7 @@ export class ManageOrdersComponent implements OnInit {
       next: response => {
         console.log('Courier assigned successfully', response);
         this.loadOrders(); // Reload orders to reflect the assigned courier
-        alert('Courier assigned successfully!'); // Notify user of success
+         // Notify user of success
       },
       error: error => {
         console.error('Error assigning courier:', error);

@@ -31,8 +31,8 @@ func createOrder(w http.ResponseWriter, r *http.Request) {
 	// (Database logic goes here)
 
 	// Insert user into the database
-	insertSQL2 := `INSERT INTO orders (pickupLocation, dropOffLocation, packageDetails, deliveryTime) VALUES (?, ?, ?, ?)`
-	_, err = DB.Exec(insertSQL2, order.PickupLocation, order.DropOffLocation, order.PackageDetails, order.DeliveryTime)
+	insertSQL2 := `INSERT INTO orders (pickupLocation, dropOffLocation, packageDetails, deliveryTime, user_id) VALUES (?, ?, ?, ?, ?)`
+	_, err = DB.Exec(insertSQL2, order.PickupLocation, order.DropOffLocation, order.PackageDetails, order.DeliveryTime, order.UserId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(Response{Message: "Couldn't create order!", Error: err.Error()})
@@ -151,6 +151,131 @@ func getAllOrders(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(orders)
 }
 
+// Handler to retrieve orders for a specific user
+func getUserOrders(w http.ResponseWriter, r *http.Request) {
+	// Extract the user ID from the URL path
+	vars := mux.Vars(r) // Using Gorilla Mux for URL parameters
+	userID := vars["id"]
+
+	// Query to fetch orders only for the specific user ID
+	rows, err := DB.Query("SELECT orderNumber, pickupLocation, dropOffLocation, packageDetails, deliveryTime, user_id, courier_id, status FROM orders WHERE user_id = ?", userID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	var orders []Order
+
+	// Loop through the rows
+	for rows.Next() {
+		var order Order
+		if err := rows.Scan(&order.OrderNumber, &order.PickupLocation, &order.DropOffLocation, &order.PackageDetails, &order.DeliveryTime, &order.UserId, &order.CourierId, &order.Status); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		orders = append(orders, order)
+	}
+
+	// Check for errors from iterating over rows
+	if err := rows.Err(); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if orders == nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(Response{Message: "You have no orders"})
+		return
+	}
+
+	// Return the orders as JSON
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(orders)
+}
+
+// Handler to retrieve a specific order by its orderNumber
+func getOrderDetails(w http.ResponseWriter, r *http.Request) {
+	// Extract the orderNumber from the URL parameters
+	orderNumber := mux.Vars(r)["orderNumber"]
+
+	// Query to fetch the order details by orderNumber
+	var order Order
+	err := DB.QueryRow("SELECT orderNumber, pickupLocation, dropOffLocation, packageDetails, deliveryTime, user_id, courier_id, status FROM orders WHERE orderNumber = ?", orderNumber).
+		Scan(&order.OrderNumber, &order.PickupLocation, &order.DropOffLocation, &order.PackageDetails, &order.DeliveryTime, &order.UserId, &order.CourierId, &order.Status)
+
+	// Check if an error occurred while querying the database
+	if err != nil {
+		if err == sql.ErrNoRows {
+			http.Error(w, "Order not found", http.StatusNotFound)
+		} else {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+
+	// Return the order as JSON
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(order)
+}
+
+// Handler to retrieve orders for a specific user
+func getCourierOrders(w http.ResponseWriter, r *http.Request) {
+	// Extract the user ID from the URL path
+	vars := mux.Vars(r) // Using Gorilla Mux for URL parameters
+	courierID := vars["id"]
+
+	// Step 1: Check if the courier exists and has the role 'courier'
+	var role string
+	err := DB.QueryRow("SELECT role FROM users WHERE id = ?", courierID).Scan(&role)
+	if err == sql.ErrNoRows {
+		http.Error(w, "Courier ID does not exist", http.StatusNotFound)
+		return
+	} else if err != nil {
+		http.Error(w, "Database error", http.StatusInternalServerError)
+		return
+	}
+
+	if role != "courier" {
+		http.Error(w, "Provided user is not a courier", http.StatusBadRequest)
+		return
+	}
+
+	// Query to fetch orders only for the specific courier ID
+	rows, err := DB.Query("SELECT orderNumber, pickupLocation, dropOffLocation, packageDetails, deliveryTime, user_id, courier_id, status FROM orders WHERE courier_id = ?", courierID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	var orders []Order
+
+	// Loop through the rows
+	for rows.Next() {
+		var order Order
+		if err := rows.Scan(&order.OrderNumber, &order.PickupLocation, &order.DropOffLocation, &order.PackageDetails, &order.DeliveryTime, &order.UserId, &order.CourierId, &order.Status); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		orders = append(orders, order)
+	}
+
+	// Check for errors from iterating over rows
+	if err := rows.Err(); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if orders == nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(Response{Message: "You have no assigned orders"})
+		return
+	}
+
+	// Return the orders as JSON
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(orders)
+}
+
 func AssignCourierToOrder(w http.ResponseWriter, r *http.Request) {
 	// Extract order ID from URL parameters
 	vars := mux.Vars(r)
@@ -158,7 +283,7 @@ func AssignCourierToOrder(w http.ResponseWriter, r *http.Request) {
 
 	// Decode the request body to get the courier ID
 	var req struct {
-		CourierID int `json:"courier_id"`
+		CourierID *int `json:"courier_id"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Invalid input", http.StatusBadRequest)
@@ -203,6 +328,102 @@ func AssignCourierToOrder(w http.ResponseWriter, r *http.Request) {
 	// Respond with success message
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(Response{Message: "Courier assigned successfully"})
+}
+
+func acceptOrder(w http.ResponseWriter, r *http.Request) {
+	// Extract the orderNumber from the URL parameters
+	orderNumber := mux.Vars(r)["orderNumber"]
+
+	// Update the order status to 'picked up'
+	result, err := DB.Exec("UPDATE orders SET status = 'picked up' WHERE orderNumber = ?", orderNumber)
+	if err != nil {
+		http.Error(w, "Failed to accept order", http.StatusInternalServerError)
+		return
+	}
+	// Check if the update affected any rows
+	rowsAffected, err := result.RowsAffected()
+	if err != nil || rowsAffected == 0 {
+		http.Error(w, "Order not found or failed to update", http.StatusNotFound)
+		return
+	}
+
+	// Respond with success message
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(Response{Message: "Order accepted and status updated to 'picked up'"})
+}
+
+func declineOrder(w http.ResponseWriter, r *http.Request) {
+	// Extract the orderNumber from the URL parameters
+	orderNumber := mux.Vars(r)["orderNumber"]
+
+	// Reset the courier_id to NULL and update the status to 'pending'
+	result, err := DB.Exec("UPDATE orders SET courier_id = NULL, status = 'pending' WHERE orderNumber = ?", orderNumber)
+	if err != nil {
+		http.Error(w, "Failed to decline order", http.StatusInternalServerError)
+		return
+	}
+	// Check if the update affected any rows
+	rowsAffected, err := result.RowsAffected()
+	if err != nil || rowsAffected == 0 {
+		http.Error(w, "Order not found or failed to update", http.StatusNotFound)
+		return
+	}
+
+	// Respond with success message
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(Response{Message: "Order declined, status set to 'pending', and courier_id reset"})
+}
+
+func clearCourier(w http.ResponseWriter, r *http.Request) {
+	// Extract the order_id from URL parameters
+	vars := mux.Vars(r)
+	orderID := vars["order_id"]
+
+	// Decode the request body to get the new status
+	var req struct {
+		Status string `json:"status"`
+	}
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	// Check if the order exists
+	var exists bool
+	checkQuery := "SELECT EXISTS(SELECT 1 FROM orders WHERE order_id = ?)"
+	err = DB.QueryRow(checkQuery, orderID).Scan(&exists)
+	if err != nil {
+		http.Error(w, "Failed to check order existence", http.StatusInternalServerError)
+		return
+	}
+	if !exists {
+		http.Error(w, "Order not found", http.StatusNotFound)
+		return
+	}
+
+	// Update the courier_id to NULL and set the new status
+	updateQuery := "UPDATE orders SET courier_id = NULL, status = ? WHERE order_id = ?"
+	result, err := DB.Exec(updateQuery, req.Status, orderID)
+	if err != nil {
+		http.Error(w, "Failed to update order", http.StatusInternalServerError)
+		return
+	}
+
+	// Check if any rows were affected
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		http.Error(w, "Failed to retrieve affected rows", http.StatusInternalServerError)
+		return
+	}
+	if rowsAffected == 0 {
+		http.Error(w, "No order was updated, please check the ID", http.StatusNotFound)
+		return
+	}
+
+	// Respond with success message
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(Response{Message: "Courier ID cleared and status updated successfully"})
 }
 
 /*

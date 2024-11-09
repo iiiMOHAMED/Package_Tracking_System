@@ -1,26 +1,34 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   email: string = '';
   password: string = '';
   private apiUrl = 'http://localhost:8080/login';
 
-  constructor(private http: HttpClient) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    const credentials = {
-      email: this.email,
-      password: this.password,
-    };
-
-    this.http.post(this.apiUrl, credentials).subscribe({
-      next: () => alert('Login successful!'),
-      error: (err) => alert('Login failed: ' + err.error)
+    this.authService.login(this.email, this.password).subscribe({
+      next: (response) => {
+        // Check if response contains the token
+        if (response && response.token) {
+          this.authService.storeToken(response.token); // Store the token
+          console.log("Token stored:", response.token);
+          this.router.navigate(["/"]);
+        } else {
+          console.error("Login failed: Token not found in response");
+        }
+      },
+      error: (err) => {
+        console.error("Login failed", err);
+      }
     });
   }
 }

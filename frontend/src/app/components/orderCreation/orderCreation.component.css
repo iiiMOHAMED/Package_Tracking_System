@@ -1,0 +1,156 @@
+/* Reset default body margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Full height for body and html */
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;     /* Centers vertically */
+    text-align: center;      /* Centers text inside elements */
+    background-color: #f4f4f7; /* Light background for iOS style */
+    color: #333;             /* Dark text for contrast */
+    font-family:Arial, Helvetica, sans-serif
+  }
+  /* Styling for the Return button in the top-right corner */
+.return-button {
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Move the button to the right */
+  }
+  
+  .return-button button {
+    background-color: #007aff; /* iOS blue */
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .return-button button:hover {
+    background-color: #005b8a;
+    transform: translateY(-2px);
+  }
+  
+  .return-button button:active {
+    background-color: #004070;
+    transform: translateY(0);
+  }
+  
+  
+  /* Full height wrapper to center content */
+  .wrapper {
+    width: 100%;
+    height: 100%; /* Ensure the wrapper takes full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  /* Centered container for content */
+  .container {
+    text-align: left; /* Align text to the left */
+    background-color: #ffffff; /* White background for the container */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px; /* Adjusted to fit form */
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Added gap between form fields */
+  }
+  
+  /* Heading styles */
+  h2 {
+    font-size: 28px;
+    color: #007aff; /* iOS blue */
+    margin-bottom: 20px;
+    text-align: left; /* Left align the heading */
+    font-family:Arial, Helvetica, sans-serif
+  }
+  
+  /* Form field group */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Reduced gap between label and input */
+    margin-bottom: 15px; /* Slightly smaller gap between form elements */
+  }
+  
+  label {
+    font-size: 14px; /* Smaller font size for labels */
+    color: #555;    /* Slightly darker color for labels */
+    font-family:Arial, Helvetica, sans-serif
+  }
+  
+  input, select {
+    padding: 8px; /* Smaller padding for inputs */
+    font-size: 14px; /* Smaller text inside input */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%; /* Ensure inputs take full width of the container */
+  }
+  
+  select {
+    padding: 8px; /* Consistent padding with inputs */
+  }
+  
+  /* Submit button styles */
+  input[type="submit"] {
+    background-color: #007aff; /* iOS blue */
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px; /* Rounded button corners */
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: auto; /* Button should not stretch to full width */
+    align-self: flex-start; /* Align the button to the left */
+  }
+  
+  /* Button hover effects */
+  input[type="submit"]:hover {
+    background-color: #005b8a; /* Darker blue on hover */
+    transform: translateY(-2px);
+  }
+  
+  /* Button active state */
+  input[type="submit"]:active {
+    background-color: #004070;
+    transform: translateY(0);
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 480px) {
+    .container {
+      padding: 15px;
+    }
+  
+    h2 {
+      font-size: 22px;
+    }
+  
+    input, select {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    input[type="submit"] {
+      font-size: 14px;
+      padding: 8px 15px;
+    }
+  }
+  
