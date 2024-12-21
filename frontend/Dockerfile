@@ -20,6 +20,10 @@ RUN npm run build --prod
 # Step 2: Use a minimal NGINX image to serve the built files
 FROM nginx:alpine
 
+# Create the required directories and set permissions for NGINX to avoid permission issues
+RUN mkdir -p /var/cache/nginx /var/log/nginx && \
+    chown -R nginx:nginx /var/cache/nginx /var/log/nginx /usr/share/nginx/html
+
 # Copy the NGINX configuration file
 COPY nginx.conf /etc/nginx/nginx.conf
 
