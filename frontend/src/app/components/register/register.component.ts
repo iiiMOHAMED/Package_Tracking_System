@@ -13,7 +13,7 @@ export class RegisterComponent {
   phone: string = '';
   password: string = '';
   role: string='';
-  private apiUrl = 'https://backend2-crt-20216087-dev.apps.rm2.thpm.p1.openshiftapps.com/register';
+  private apiUrl = 'https://backend3-crt-20216087-dev.apps.rm2.thpm.p1.openshiftapps.com/register';
 
   constructor(private http: HttpClient, private router: Router) {}
 

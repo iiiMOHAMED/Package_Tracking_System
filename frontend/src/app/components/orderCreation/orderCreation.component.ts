@@ -13,7 +13,7 @@ export class orderCreationComponent {
   dropOffLocation: string = '';
   packageDetails: string = '';
   deliveryTime: string = '';
-  private apiUrl = 'https://backend2-crt-20216087-dev.apps.rm2.thpm.p1.openshiftapps.com/orders';
+  private apiUrl = 'https://backend3-crt-20216087-dev.apps.rm2.thpm.p1.openshiftapps.com/orders';
   userId: number | null = null;
   role:string=" ";
 
