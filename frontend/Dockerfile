@@ -1,5 +1,5 @@
-# Use a minimal Node.js image based on Alpine
-FROM node:18-alpine
+# Step 1: Use a Node.js image for building the Angular app
+FROM node:18-alpine AS build
 
 # Set the working directory
 WORKDIR /app
@@ -14,8 +14,17 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Expose the development server port
-EXPOSE 4200
+# Build the Angular app for production
+RUN npm run build --prod
 
-# Start the Angular development server and bind to all network interfaces (0.0.0.0)
-CMD ["npm", "run", "start", "--", "--host", "0.0.0.0"]
+# Step 2: Use a minimal NGINX image to serve the built files
+FROM nginx:alpine
+
+# Copy the built Angular app from the previous stage to the NGINX web directory
+COPY --from=build /app/dist/shipping-frontend /usr/share/nginx/html
+
+# Expose the port for the web server
+EXPOSE 80
+
+# Start NGINX to serve the app
+CMD ["nginx", "-g", "daemon off;"]
