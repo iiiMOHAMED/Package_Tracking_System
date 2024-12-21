@@ -32,7 +32,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist/shipping-frontend /usr/share/nginx/html
 
 # Expose the port for the web server
-EXPOSE 80
+EXPOSE 4200
 
 # Start NGINX to serve the app
 CMD ["nginx", "-g", "daemon off;"]
