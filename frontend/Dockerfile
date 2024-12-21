@@ -7,7 +7,7 @@ WORKDIR /app
 # Install Angular CLI globally
 RUN npm install -g @angular/cli
 
-# Install dependencies (from package.json and package-lock.json)
+# Install dependencies
 COPY package*.json ./
 RUN npm install
 
@@ -20,13 +20,13 @@ RUN npm run build --prod
 # Step 2: Use a minimal NGINX image to serve the built files
 FROM nginx:alpine
 
+# Switch to root to handle permission-sensitive operations
+USER root
+
 # Create necessary directories with permissions
 RUN mkdir -p /var/cache/nginx /var/log/nginx /usr/share/nginx/html && \
-    chmod 777 /var/cache/nginx /var/log/nginx /usr/share/nginx/html && \
+    chmod -R 755 /var/cache/nginx /var/log/nginx /usr/share/nginx/html && \
     chown -R nginx:nginx /var/cache/nginx /var/log/nginx /usr/share/nginx/html
-
-# Switch to root user to allow binding to port 80
-USER root
 
 # Copy the NGINX configuration file
 COPY nginx.conf /etc/nginx/nginx.conf
