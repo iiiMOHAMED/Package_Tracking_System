@@ -17,6 +17,9 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Ensure the app directory and its contents have proper permissions
+RUN chmod -R 777 /app
+
 # Step 2: Expose the development server port and run Angular development server
 EXPOSE 4200
 
