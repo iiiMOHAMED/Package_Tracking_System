@@ -4,6 +4,9 @@ FROM node:18-alpine AS build
 # Set the working directory
 WORKDIR /app
 
+# Create the .angular cache directory and give full permissions
+RUN mkdir -p /app/.angular && chmod -R 777 /app/.angular
+
 # Install Angular CLI globally
 RUN npm install -g @angular/cli
 
