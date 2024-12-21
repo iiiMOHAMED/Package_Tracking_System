@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   email: string = '';
   password: string = '';
-  private apiUrl = 'http://localhost:8080/login';
+  private apiUrl = 'https://backend2-crt-20216087-dev.apps.rm2.thpm.p1.openshiftapps.com/login';
 
   constructor(private authService: AuthService, private router: Router) {}
 

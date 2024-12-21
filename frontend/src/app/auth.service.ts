@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080'; 
+  private apiUrl = 'https://backend2-crt-20216087-dev.apps.rm2.thpm.p1.openshiftapps.com'; 
 
   constructor(private http: HttpClient) {}
 

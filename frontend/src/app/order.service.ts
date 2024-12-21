@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class OrderService {
-  private apiUrl = 'http://localhost:8080'; // Replace with your backend URL
+  private apiUrl = 'https://backend2-crt-20216087-dev.apps.rm2.thpm.p1.openshiftapps.com'; // Replace with your backend URL
 
   constructor(private http: HttpClient) {}
 
