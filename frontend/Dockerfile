@@ -25,6 +25,9 @@ RUN mkdir -p /var/cache/nginx /var/log/nginx /usr/share/nginx/html && \
     chmod 777 /var/cache/nginx /var/log/nginx /usr/share/nginx/html && \
     chown -R nginx:nginx /var/cache/nginx /var/log/nginx /usr/share/nginx/html
 
+# Switch to root user to allow binding to port 80
+USER root
+
 # Copy the NGINX configuration file
 COPY nginx.conf /etc/nginx/nginx.conf
 
@@ -32,7 +35,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist/shipping-frontend /usr/share/nginx/html
 
 # Expose the port for the web server
-EXPOSE 4200
+EXPOSE 80
 
 # Start NGINX to serve the app
 CMD ["nginx", "-g", "daemon off;"]
